@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { getSize } from "../api/productsData";
 import Button from "./UI/Button";
 import { Size, ColorProduct } from "../Types";
-
+import { useAppDispatch } from "../hooks";
+import { addSizes } from "../store/sizesSlice";
 interface ProdColorProps {
   className?: string;
   productColor: ColorProduct;
@@ -21,9 +22,10 @@ const ProductColor = ({
   className,
   handlerClick,
 }: ProdColorProps) => {
+  const dispatch = useAppDispatch();
   const [sizes, setSizes] = useState<Size[]>([]);
+  dispatch(addSizes(sizes));
   const [chosenSizeId, setChosenSizeId] = useState<number | null>(null);
-
   const fetchSize = async () => {
     try {
       const requests = productColor.sizes.map((sizeId) => getSize(sizeId));
@@ -46,31 +48,28 @@ const ProductColor = ({
   return (
     <div className={className}>
       <img
-        className="product-card__img"
+        className="product-color__img"
         src={`${productColor.images[0]}`}
         alt={`Изображение ${productColor.name}`}
       />
-      <div>
-        {productColor.name} {productColor.id} {productId}
-      </div>
-      <div>{productColor.description}</div>
-      <div>{productColor.price}</div>
-      <select onChange={handleSizeChange} value={chosenSizeId ?? ""}>
+
+      <select className="select-size" onChange={handleSizeChange} value={chosenSizeId ?? ""}>
         <option value="" disabled>
           выбрать размер
         </option>
 
         {sizes.map(({ id, label }) => (
-          <option key={id} value={id}>
+          <option key={id} value={id} className="option-size">
             Размер: {label}
           </option>
         ))}
       </select>
       <Button
+        className="product-color__button"
         handlerClick={() => {
           if (chosenSizeId !== null) {
             const chooseSize = sizes.find(({ id }) => id === chosenSizeId);
-            if (!chooseSize) return null
+            if (!chooseSize) return null;
             const cartId = `${productId}${productColor.id}${chosenSizeId}`;
             handlerClick(cartId, productId, productColor, chooseSize);
           }

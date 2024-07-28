@@ -40,7 +40,12 @@ const ProductPage = () => {
     }
   };
 
-  const addInCart = (cartId: string, productId: number, productColor: ColorProduct, chooseSize: Size) => {
+  const addInCart = (
+    cartId: string,
+    productId: number,
+    productColor: ColorProduct,
+    chooseSize: Size
+  ) => {
     dispatch(
       addProduct({
         productId,
@@ -53,31 +58,35 @@ const ProductPage = () => {
 
   return (
     <>
-      <div className="product-container">
-        <Button className="button-slider" handlerClick={pervSlide}>
-          &lt;
-        </Button>
-        {product?.colors.map((color) => {
-          const {id} = color;
-          const prodColorClassName =
-            id === slide ? "product-color__active" : "product-color";
+      <h2 className="product__name">{product?.name}</h2>
 
-          return (
-            <ProductColor
-              handlerClick={addInCart}
-              className={prodColorClassName}
-              productId={product.id}
-              productColor={color}
-              key={id}
-            />
-          );
-        })}
-        <Button className="button-slider" handlerClick={nextSlide}>
-          &gt;
-        </Button>
+      <div className="product-container">
+        <div className="product-color-container">
+          <Button className="button-slider-left" handlerClick={pervSlide}>
+            &lt;
+          </Button>
+          {product?.colors.map((color) => {
+            const { id } = color;
+            const prodColorClassName =
+              id === slide ? "product-color__active" : "product-color";
+
+            return (
+              <ProductColor
+                handlerClick={addInCart}
+                className={prodColorClassName}
+                productId={product.id}
+                productColor={color}
+                key={id}
+              />
+            );
+          })}
+          <Button className="button-slider-right" handlerClick={nextSlide}>
+            &gt;
+          </Button>
+        </div>
+        
       </div>
-      <hr />
-      <div>{product?.name}</div>
+      
     </>
   );
 };

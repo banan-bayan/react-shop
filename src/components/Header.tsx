@@ -5,10 +5,10 @@ const Header = () => {
   return (
     <div className="header">
       <Link to={"/"}>
-        <Button>list</Button>
+        <Button>Каталог</Button>
       </Link>
       <Link to={"/cart"}>
-        <Button>cart</Button>
+        <Button>Корзина</Button>
       </Link>
     </div>
   );

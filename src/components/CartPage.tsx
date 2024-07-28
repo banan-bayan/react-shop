@@ -10,7 +10,7 @@ const CartPage = () => {
 
   const cart = useAppSelector((state) => state.cart);
   const products = useAppSelector((state) => state.products);
-
+ 
   return cart?.length ? (
     <>
       <div className="product-cart">
@@ -31,7 +31,7 @@ const CartPage = () => {
       </div>
     </>
   ) : (
-    <div>Отсутствуют товары в корзине</div>
+    <h1>Отсутствуют товары в корзине</h1>
   );
 };
 
