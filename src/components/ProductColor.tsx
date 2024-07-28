@@ -47,7 +47,7 @@ const ProductColor = ({
     <div className={className}>
       <img
         className="product-card__img"
-        src={`/${productColor.images[0]}`}
+        src={`${productColor.images[0]}`}
         alt={`Изображение ${productColor.name}`}
       />
       <div>
