@@ -58,7 +58,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <h2 className="product__name">{product?.name}</h2>
+      <h2 className="product-name">{product?.name}</h2>
 
       <div className="product-container">
         <div className="product-color-container">

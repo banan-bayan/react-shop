@@ -22,7 +22,7 @@ const CartItem = ({ cartProduct, handlerClick, productName }: CartItem) => {
     <>
       <div className="product-cart-item"> 
         <img className="product-card__img" src={images[0]} />
-        <h3 className="product__name">{productName}</h3>
+        <h3 className="product-name">{productName}</h3>
         <p>цвет: {name}</p>
         <p>цена: {price}</p>
         <p>размер: {label}</p>

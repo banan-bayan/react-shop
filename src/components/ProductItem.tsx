@@ -14,7 +14,7 @@ const ProductItem = ({ product}: ProductItem) => {
             src={product?.colors[0].images[0]}
             className="product-card__img"
           />
-          <div>{product?.name}</div>
+          <div className="product-name">{product?.name}</div>
         </Button>
       </Link>
     </div>
