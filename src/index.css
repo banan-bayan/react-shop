@@ -132,6 +132,10 @@ button:focus-visible {
   transition: all 0.1s 0s ease;
 }
 
+.product-item {
+  flex-direction: column;
+  align-items: center;
+}
 .product-card:active {
   background-color: white;
   transition: color 0s;
