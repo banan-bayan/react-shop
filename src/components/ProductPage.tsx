@@ -9,6 +9,7 @@ import { Product, ColorProduct, Size } from "../Types";
 
 const ProductPage = () => {
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { productId } = useParams<{ productId: string }>();
   const [slide, setSlide] = useState<number>(1);
   const [product, setProduct] = useState<Product | undefined>(undefined);
@@ -18,8 +19,10 @@ const ProductPage = () => {
       if (productId) {
         const fetchedProduct = await getProduct(Number(productId));
         setProduct(fetchedProduct);
+        setIsLoading(true);
       }
     } catch (e) {
+      setIsLoading(true);
       console.warn(e);
     }
   };
@@ -56,8 +59,8 @@ const ProductPage = () => {
     );
   };
 
-  return (
-    <>
+  return isLoading ? (
+    <div>
       <h2 className="product-name">{product?.name}</h2>
 
       <div className="product-container">
@@ -84,10 +87,10 @@ const ProductPage = () => {
             &gt;
           </Button>
         </div>
-        
       </div>
-      
-    </>
+    </div>
+  ) : (
+    <h1>Загрузка товара</h1>
   );
 };
 
