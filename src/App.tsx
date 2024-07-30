@@ -9,6 +9,7 @@ import { deleteProduct } from "./store/cartSlice";
 import { useEffect, useState } from "react";
 import { getProducts } from "./api/productsData";
 import { Product } from "./Types";
+import { getProduct } from "./api/productsData";
 
 const App = () => {
   const [slide, setSlide] = useState<number>(1);
@@ -47,6 +48,26 @@ const App = () => {
     }
   };
 
+
+  //------------------ prod page
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [productColor, setProductColor] = useState<Product>();
+  const fetchProd = async (productId: number) => {
+    try {
+      if (productId) {
+        const fetchedProduct = await getProduct(Number(productId));
+        setProductColor(fetchedProduct);
+        setIsLoading(true);
+      }
+    } catch (e) {
+      setIsLoading(true);
+      console.warn(e);
+    }
+  };
+  //-----------
+
+
   return (
     <div className="app">
       <Header cartProductsCount={cartProducts.length} />
@@ -55,7 +76,7 @@ const App = () => {
         <Route
           path="/product/:productId"
           element={
-            <ProductPage handlerClick={handlerClickSlide} slideNumber={slide} />
+            <ProductPage productColor={productColor}  isLoadingProduct={isLoading} fetchProduct={fetchProd}  handlerClick={handlerClickSlide} slideNumber={slide} />
           }
         />
         <Route

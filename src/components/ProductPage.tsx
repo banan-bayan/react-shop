@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getProduct } from "../api/productsData";
+import { useEffect } from "react";
 import ProductColor from "./ProductColor";
 import Button from "./UI/Button";
 import { useAppDispatch } from "../hooks";
@@ -9,28 +8,22 @@ import { Product, ColorProduct, Size } from "../Types";
 interface ProductPageProps {
   handlerClick: (product: Product | undefined, direction: string) => void;
   slideNumber: number;
+  fetchProduct: (prodId: number) => void;
+  isLoadingProduct: boolean;
+  productColor?: Product
 }
-const ProductPage = ({ handlerClick, slideNumber }: ProductPageProps) => {
+const ProductPage = ({
+  productColor, 
+  isLoadingProduct,
+  handlerClick,
+  slideNumber,
+  fetchProduct,
+}: ProductPageProps) => {
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<Product>();
-
-  const fetchProd = async () => {
-    try {
-      if (productId) {
-        const fetchedProduct = await getProduct(Number(productId));
-        setProduct(fetchedProduct);
-        setIsLoading(true);
-      }
-    } catch (e) {
-      setIsLoading(true);
-      console.warn(e);
-    }
-  };
 
   useEffect(() => {
-    fetchProd();
+    fetchProduct(Number(productId));
   }, [productId]);
 
   const addInCart = (
@@ -49,19 +42,19 @@ const ProductPage = ({ handlerClick, slideNumber }: ProductPageProps) => {
     );
   };
 
-  return isLoading ? (
+  return isLoadingProduct ? (
     <div>
-      <h2 className="product-name">{product?.name}</h2>
+      <h2 className="product-name">{productColor?.name}</h2>
 
       <div className="product-container">
         <div className="product-color-container">
           <Button
             className="button-slider-left"
-            handlerClick={() => handlerClick(product, "prev")}
+            handlerClick={() => handlerClick(productColor, "prev")}
           >
             &lt;
           </Button>
-          {product?.colors.map((color) => {
+          {productColor?.colors.map((color) => {
             const { id } = color;
             const prodColorClassName =
               id === slideNumber ? "product-color__active" : "product-color";
@@ -70,14 +63,14 @@ const ProductPage = ({ handlerClick, slideNumber }: ProductPageProps) => {
               <ProductColor
                 handlerClick={addInCart}
                 className={prodColorClassName}
-                productId={product.id}
+                productId={productColor.id}
                 productColor={color}
                 key={id}
               />
             );
           })}
           <Button
-            handlerClick={() => handlerClick(product, "next")}
+            handlerClick={() => handlerClick(productColor, "next")}
             className="button-slider-right"
           >
             &gt;
