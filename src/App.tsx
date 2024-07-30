@@ -13,7 +13,8 @@ import { getProduct } from "./api/productsData";
 
 const App = () => {
   const [slide, setSlide] = useState<number>(1);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [productColor, setProductColor] = useState<Product>();
   const [products, setProducts] = useState<Product[]>([]);
   const cartProducts = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
@@ -48,11 +49,6 @@ const App = () => {
     }
   };
 
-
-  //------------------ prod page
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [productColor, setProductColor] = useState<Product>();
   const fetchProd = async (productId: number) => {
     try {
       if (productId) {
@@ -65,8 +61,6 @@ const App = () => {
       console.warn(e);
     }
   };
-  //-----------
-
 
   return (
     <div className="app">
