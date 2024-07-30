@@ -6,13 +6,15 @@ import Button from "./UI/Button";
 import { useAppDispatch } from "../hooks";
 import { addProduct } from "../store/cartSlice";
 import { Product, ColorProduct, Size } from "../Types";
-
-const ProductPage = () => {
+interface ProductPageProps {
+  handlerClick: (product: Product | undefined, direction: string) => void;
+  slideNumber: number;
+}
+const ProductPage = ({ handlerClick, slideNumber }: ProductPageProps) => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { productId } = useParams<{ productId: string }>();
-  const [slide, setSlide] = useState<number>(1);
-  const [product, setProduct] = useState<Product | undefined>(undefined);
+  const [product, setProduct] = useState<Product>();
 
   const fetchProd = async () => {
     try {
@@ -30,18 +32,6 @@ const ProductPage = () => {
   useEffect(() => {
     fetchProd();
   }, [productId]);
-
-  const pervSlide = () => {
-    if (product?.colors?.length) {
-      setSlide((prev) => (prev === 1 ? product.colors.length : prev - 1));
-    }
-  };
-
-  const nextSlide = () => {
-    if (product?.colors?.length) {
-      setSlide((prev) => (prev === product.colors.length ? 1 : prev + 1));
-    }
-  };
 
   const addInCart = (
     cartId: string,
@@ -65,13 +55,16 @@ const ProductPage = () => {
 
       <div className="product-container">
         <div className="product-color-container">
-          <Button className="button-slider-left" handlerClick={pervSlide}>
+          <Button
+            className="button-slider-left"
+            handlerClick={() => handlerClick(product, "prev")}
+          >
             &lt;
           </Button>
           {product?.colors.map((color) => {
             const { id } = color;
             const prodColorClassName =
-              id === slide ? "product-color__active" : "product-color";
+              id === slideNumber ? "product-color__active" : "product-color";
 
             return (
               <ProductColor
@@ -83,7 +76,10 @@ const ProductPage = () => {
               />
             );
           })}
-          <Button className="button-slider-right" handlerClick={nextSlide}>
+          <Button
+            handlerClick={() => handlerClick(product, "next")}
+            className="button-slider-right"
+          >
             &gt;
           </Button>
         </div>

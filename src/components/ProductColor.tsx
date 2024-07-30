@@ -46,6 +46,7 @@ const ProductColor = ({
   };
 
   const chooseSize = sizes.find(({ id }) => id === chosenSizeId);
+
   const cartId = `${productId}${productColor.id}${chosenSizeId}`;
 
   return (
