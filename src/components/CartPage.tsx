@@ -1,20 +1,17 @@
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { deleteProduct } from "../store/cartSlice";
+import { CartItemInterface, Product } from "../Types";
 import CartItem from "./CartItem";
 
-const CartPage = () => {
-  const dispatch = useAppDispatch();
-  const deleteProd = (cartId: string) => {
-    dispatch(deleteProduct({ cartId }));
-  };
+interface CartPageProps {
+  cartProducts: CartItemInterface[];
+  products: Product[];
+  handlerClick: (cartId: string) => void;
+}
 
-  const cart = useAppSelector((state) => state.cart);
-  const products = useAppSelector((state) => state.products);
- 
-  return cart?.length ? (
+const CartPage = ({ cartProducts, products, handlerClick }: CartPageProps) => {
+  return cartProducts?.length ? (
     <>
       <div className="product-cart">
-        {cart.map((cartProduct, index) => {
+        {cartProducts.map((cartProduct, index) => {
           const product = products.find(
             ({ id }) => id === cartProduct.productId
           );
@@ -23,7 +20,7 @@ const CartPage = () => {
             <CartItem
               key={index}
               cartProduct={cartProduct}
-              handlerClick={deleteProd}
+              handlerClick={handlerClick}
               productName={product.name}
             />
           );

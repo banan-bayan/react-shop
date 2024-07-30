@@ -1,3 +1,4 @@
+
 export interface ColorProduct {
   id: number
   name: string
@@ -17,6 +18,13 @@ export interface Size {
   label: string 
   id: number
   number: number
+}
+
+export interface CartItemInterface {
+  cartId: string;
+  productId: number;
+  productColor: ColorProduct;
+  chooseSize: Size;
 }
 
 

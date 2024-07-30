@@ -45,6 +45,9 @@ const ProductColor = ({
     setChosenSizeId(selectedSizeId);
   };
 
+  const chooseSize = sizes.find(({ id }) => id === chosenSizeId);
+  const cartId = `${productId}${productColor.id}${chosenSizeId}`;
+
   return (
     <div className={className}>
       <img
@@ -53,7 +56,11 @@ const ProductColor = ({
         alt={`Изображение ${productColor.name}`}
       />
 
-      <select className="select-size" onChange={handleSizeChange} value={chosenSizeId ?? ""}>
+      <select
+        className="select-size"
+        onChange={handleSizeChange}
+        value={chosenSizeId ?? ""}
+      >
         <option value="" disabled>
           выбрать размер
         </option>
@@ -67,12 +74,8 @@ const ProductColor = ({
       <Button
         className="product-color__button"
         handlerClick={() => {
-          if (chosenSizeId !== null) {
-            const chooseSize = sizes.find(({ id }) => id === chosenSizeId);
-            if (!chooseSize) return null;
-            const cartId = `${productId}${productColor.id}${chosenSizeId}`;
-            handlerClick(cartId, productId, productColor, chooseSize);
-          }
+          if (!chooseSize) return null;
+          handlerClick(cartId, productId, productColor, chooseSize);
         }}
       >
         В корзину
