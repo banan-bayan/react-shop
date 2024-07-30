@@ -8,15 +8,18 @@ interface ProdColorProps {
   className?: string;
   productColor: ColorProduct;
   productId: number;
+  productName: string;
   handlerClick: (
     cartId: string,
     productId: number,
     productColor: ColorProduct,
-    chooseSize: Size
+    chooseSize: Size,
+    productName: string,
   ) => void;
 }
 
 const ProductColor = ({
+  productName,
   productColor,
   productId,
   className,
@@ -76,7 +79,7 @@ const ProductColor = ({
         className="product-color__button"
         handlerClick={() => {
           if (!chooseSize) return null;
-          handlerClick(cartId, productId, productColor, chooseSize);
+          handlerClick(cartId, productId, productColor, chooseSize, productName);
         }}
       >
         В корзину

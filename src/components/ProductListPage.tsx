@@ -1,10 +1,27 @@
 import ProductItem from "./ProductItem";
+import { useEffect, useState } from "react";
+import { getProducts } from "../api/productsData";
 import { Product } from "../Types";
-interface ProductsListProps {
-  products: Product[];
-}
+import { addProducts } from "../store/productsSlice";
+import { useAppDispatch } from "../hooks";
+const ProductList = () => {
+  const dispatch = useAppDispatch();
 
-const ProductList = ({ products }: ProductsListProps) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  dispatch(addProducts(products));
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <div className="products-container">
       {products.map((product) => (

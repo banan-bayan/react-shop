@@ -25,6 +25,7 @@ export interface CartItemInterface {
   productId: number;
   productColor: ColorProduct;
   chooseSize: Size;
+  productName: string
 }
 
 

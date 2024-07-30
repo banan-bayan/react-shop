@@ -3,18 +3,17 @@ import { CartItemInterface } from "../Types";
 
 interface CartItemProps {
   cartProduct: CartItemInterface;
-  productName: string | null;
   handlerClick: (cartId: string) => void;
 }
 const CartItem = ({
   cartProduct,
   handlerClick,
-  productName,
 }: CartItemProps) => {
   const {
     chooseSize: { label },
     productColor: { price, name, images },
     cartId,
+    productName
   } = cartProduct;
 
   return (

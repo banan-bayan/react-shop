@@ -2,10 +2,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CartItemInterface } from "../Types";
 
 const getInitial = () => {
-  const cartFromStaorage = localStorage.getItem("cart");
-  if (!cartFromStaorage) return [];
+  const cartFromStorage = localStorage.getItem("cart");
+  if (!cartFromStorage) return [];
 
-  return JSON.parse(cartFromStaorage);
+  return JSON.parse(cartFromStorage);
 };
 
 const initialState: CartItemInterface[] = getInitial();

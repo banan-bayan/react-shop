@@ -1,36 +1,55 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getProduct } from "../api/productsData";
 import ProductColor from "./ProductColor";
 import Button from "./UI/Button";
 import { useAppDispatch } from "../hooks";
 import { addProduct } from "../store/cartSlice";
 import { Product, ColorProduct, Size } from "../Types";
-interface ProductPageProps {
-  handlerClick: (product: Product | undefined, direction: string) => void;
-  slideNumber: number;
-  fetchProduct: (prodId: number) => void;
-  isLoadingProduct: boolean;
-  productColor?: Product
-}
-const ProductPage = ({
-  productColor, 
-  isLoadingProduct,
-  handlerClick,
-  slideNumber,
-  fetchProduct,
-}: ProductPageProps) => {
+
+const ProductPage = () => {
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { productId } = useParams<{ productId: string }>();
+  const [slide, setSlide] = useState<number>(1);
+  const [product, setProduct] = useState<Product | undefined>(undefined);
+
+  const fetchProd = async () => {
+    try {
+      if (productId) {
+        const fetchedProduct = await getProduct(Number(productId));
+        setProduct(fetchedProduct);
+        setIsLoading(true);
+      }
+    } catch (e) {
+      setIsLoading(true);
+      console.warn(e);
+    }
+  };
 
   useEffect(() => {
-    fetchProduct(Number(productId));
+    fetchProd();
   }, [productId]);
+
+  const pervSlide = () => {
+    if (product?.colors?.length) {
+      setSlide((prev) => (prev === 1 ? product.colors.length : prev - 1));
+    }
+  };
+
+  const nextSlide = () => {
+    if (product?.colors?.length) {
+      setSlide((prev) => (prev === product.colors.length ? 1 : prev + 1));
+    }
+  };
 
   const addInCart = (
     cartId: string,
     productId: number,
     productColor: ColorProduct,
-    chooseSize: Size
+    chooseSize: Size,
+    productName: string
+
   ) => {
     dispatch(
       addProduct({
@@ -38,41 +57,37 @@ const ProductPage = ({
         cartId,
         productColor,
         chooseSize,
+        productName
       })
     );
   };
 
-  return isLoadingProduct ? (
+  return isLoading ? (
     <div>
-      <h2 className="product-name">{productColor?.name}</h2>
+      <h2 className="product-name">{product?.name}</h2>
 
       <div className="product-container">
         <div className="product-color-container">
-          <Button
-            className="button-slider-left"
-            handlerClick={() => handlerClick(productColor, "prev")}
-          >
+          <Button className="button-slider-left" handlerClick={pervSlide}>
             &lt;
           </Button>
-          {productColor?.colors.map((color) => {
+          {product?.colors.map((color) => {
             const { id } = color;
             const prodColorClassName =
-              id === slideNumber ? "product-color__active" : "product-color";
+              id === slide ? "product-color__active" : "product-color";
 
             return (
               <ProductColor
                 handlerClick={addInCart}
                 className={prodColorClassName}
-                productId={productColor.id}
+                productId={product.id}
                 productColor={color}
+                productName={product.name}
                 key={id}
               />
             );
           })}
-          <Button
-            handlerClick={() => handlerClick(productColor, "next")}
-            className="button-slider-right"
-          >
+          <Button className="button-slider-right" handlerClick={nextSlide}>
             &gt;
           </Button>
         </div>
