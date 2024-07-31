@@ -49,19 +49,18 @@ const ProductColor = ({
   };
 
   const chooseSize = sizes.find(({ id }) => id === chosenSizeId);
-
   const cartId = `${productId}${productColor.id}${chosenSizeId}`;
 
   return (
     <div className={className}>
       <img
-        className="product-color__img"
+        className="product-slider__image"
         src={`${productColor.images[0]}`}
         alt={`Изображение ${productColor.name}`}
       />
 
       <select
-        className="select-size"
+        className="s"
         onChange={handleSizeChange}
         value={chosenSizeId ?? ""}
       >
@@ -70,13 +69,13 @@ const ProductColor = ({
         </option>
 
         {sizes.map(({ id, label }) => (
-          <option key={id} value={id} className="option-size">
+          <option key={id} value={id} className="as">
             Размер: {label}
           </option>
         ))}
       </select>
       <Button
-        className="product-color__button"
+        className="product-color-card-add-to-cart__button"
         handlerClick={() => {
           if (!chooseSize) return null;
           handlerClick(cartId, productId, productColor, chooseSize, productName);

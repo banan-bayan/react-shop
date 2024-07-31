@@ -49,7 +49,6 @@ const ProductPage = () => {
     productColor: ColorProduct,
     chooseSize: Size,
     productName: string
-
   ) => {
     dispatch(
       addProduct({
@@ -57,41 +56,37 @@ const ProductPage = () => {
         cartId,
         productColor,
         chooseSize,
-        productName
+        productName,
       })
     );
   };
 
   return isLoading ? (
-    <div>
-      <h2 className="product-name">{product?.name}</h2>
+    <div className="product-slider-container">
+      <Button className="product-slider__button prev" handlerClick={pervSlide}>
+        &lt;
+      </Button>
+      <div className="product-slider">
+        {product?.colors.map((color) => {
+          const { id } = color;
+          const prodColorClassName =
+            id === slide ? "product-slide__active" : "product-slide";
 
-      <div className="product-container">
-        <div className="product-color-container">
-          <Button className="button-slider-left" handlerClick={pervSlide}>
-            &lt;
-          </Button>
-          {product?.colors.map((color) => {
-            const { id } = color;
-            const prodColorClassName =
-              id === slide ? "product-color__active" : "product-color";
-
-            return (
-              <ProductColor
-                handlerClick={addInCart}
-                className={prodColorClassName}
-                productId={product.id}
-                productColor={color}
-                productName={product.name}
-                key={id}
-              />
-            );
-          })}
-          <Button className="button-slider-right" handlerClick={nextSlide}>
-            &gt;
-          </Button>
-        </div>
+          return (
+            <ProductColor
+              handlerClick={addInCart}
+              className={prodColorClassName}
+              productId={product.id}
+              productColor={color}
+              productName={product.name}
+              key={id}
+            />
+          );
+        })}
       </div>
+      <Button className="product-slider__button next" handlerClick={nextSlide}>
+        &gt;
+      </Button>
     </div>
   ) : (
     <h1>Загрузка товара</h1>
