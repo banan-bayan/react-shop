@@ -66,6 +66,7 @@
   transition: transform 0.3s ease;
   flex: 1 1 300px;
   border: none;
+  cursor: pointer;
 }
 
 .product-card:hover {
@@ -161,6 +162,7 @@
   height: 30px;
   margin: 0 auto;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .styled-select {
