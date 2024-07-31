@@ -60,16 +60,16 @@ const ProductColor = ({
       />
 
       <select
-        className="s"
+        className="select-container"
         onChange={handleSizeChange}
         value={chosenSizeId ?? ""}
       >
-        <option value="" disabled>
+        <option value="" disabled className="styled-select">
           выбрать размер
         </option>
 
         {sizes.map(({ id, label }) => (
-          <option key={id} value={id} className="as">
+          <option key={id} value={id} className="styled-select">
             Размер: {label}
           </option>
         ))}
