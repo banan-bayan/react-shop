@@ -173,14 +173,14 @@
   display: none;
 }
 
-/* .product-slide__prev {
+/* .product-slide__next {
   transition: all 0s ease;
   transform: translateX(-50px);
   visibility: hidden;
   width: 0;
 }
 
-.product-slide__next {
+.product-slide__prev {
   transition: all 0s ease;
   transform: translateX(50px);
   visibility: hidden;

@@ -31,15 +31,13 @@ const ProductPage = () => {
     fetchProd();
   }, [productId]);
 
-  const pervSlide = () => {
+  const handlerSlide = (slideDirection: string) => {
     if (product?.colors?.length) {
-      setSlide((prev) => (prev === 1 ? product.colors.length : prev - 1));
-    }
-  };
-
-  const nextSlide = () => {
-    if (product?.colors?.length) {
-      setSlide((prev) => (prev === product.colors.length ? 1 : prev + 1));
+      if (slideDirection === "next") {
+        setSlide((prev) => (prev === product.colors.length ? 1 : prev + 1));
+      } else {
+        setSlide((prev) => (prev === 1 ? product.colors.length : prev - 1));
+      }
     }
   };
 
@@ -63,7 +61,10 @@ const ProductPage = () => {
 
   return isLoading ? (
     <div className="product-slider-container">
-      <Button className="product-slider__button prev" handlerClick={pervSlide}>
+      <Button
+        className="product-slider__button prev"
+        handlerClick={() => handlerSlide("prev")}
+      >
         &lt;
       </Button>
       <div className="product-slider">
@@ -84,7 +85,10 @@ const ProductPage = () => {
           );
         })}
       </div>
-      <Button className="product-slider__button next" handlerClick={nextSlide}>
+      <Button
+        className="product-slider__button next"
+        handlerClick={() => handlerSlide("next")}
+      >
         &gt;
       </Button>
     </div>
