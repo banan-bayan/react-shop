@@ -89,7 +89,7 @@ const ProductPage = () => {
       </Button>
     </div>
   ) : (
-    <h1>Загрузка товара</h1>
+    <div className="loader">Загрузка товара</div>
   );
 };
 
