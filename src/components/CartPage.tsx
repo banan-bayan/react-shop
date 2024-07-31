@@ -9,7 +9,7 @@ const CartPage = () => {
   const deleteProd = (cartId: string) => {
     dispatch(deleteProduct({ cartId }));
   };
-  
+
   return cartProducts.length ? (
     <div>
       <div className="cart-container">
@@ -23,7 +23,9 @@ const CartPage = () => {
       </div>
     </div>
   ) : (
-    <h1>Отсутствуют товары в корзине</h1>
+    <div className="cart-container__empty-cart">
+      отсутствуют товары в корзине
+    </div>
   );
 };
 

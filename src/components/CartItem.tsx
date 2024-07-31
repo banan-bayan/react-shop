@@ -24,7 +24,7 @@ const CartItem = ({ cartProduct, handlerClick }: CartItemProps) => {
           <div className="cart-item__price">цена: {price}</div>
           <div className="cart-item__size">размер: {label}</div>
           <Button
-            className="cart-item__delete-cart-button"
+            className="btn cart-item__delete-cart-button"
             handlerClick={() => handlerClick(cartId)}
           >
             удалить

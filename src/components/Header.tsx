@@ -9,10 +9,10 @@ const Header = ({cartProductsCount}: HeaderProps) => {
     <div className="header">
       <div className="header__nav-buttons">
       <Link to={"/"}>
-        <Button className="header__button">Каталог</Button>
+        <Button className="btn header__button">Каталог</Button>
       </Link>
       <Link to={"/cart"}>
-        <Button className="header__button">
+        <Button className="btn header__button">
           <p>{`Корзина   ${cartProductsCount}`}</p>
         </Button>
       </Link>

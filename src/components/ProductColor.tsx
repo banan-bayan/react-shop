@@ -14,7 +14,7 @@ interface ProdColorProps {
     productId: number,
     productColor: ColorProduct,
     chooseSize: Size,
-    productName: string,
+    productName: string
   ) => void;
 }
 
@@ -58,7 +58,7 @@ const ProductColor = ({
         src={`${productColor.images[0]}`}
         alt={`Изображение ${productColor.name}`}
       />
-
+      <div className="product-name">{productName}</div>
       <select
         className="select-container"
         onChange={handleSizeChange}
@@ -75,10 +75,16 @@ const ProductColor = ({
         ))}
       </select>
       <Button
-        className="product-color-card-add-to-cart__button"
+        className="btn product-color-card-add-to-cart__button"
         handlerClick={() => {
           if (!chooseSize) return null;
-          handlerClick(cartId, productId, productColor, chooseSize, productName);
+          handlerClick(
+            cartId,
+            productId,
+            productColor,
+            chooseSize,
+            productName
+          );
         }}
       >
         В корзину
