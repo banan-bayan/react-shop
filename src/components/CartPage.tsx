@@ -11,8 +11,8 @@ const CartPage = () => {
   };
   
   return cartProducts.length ? (
-    <div className="cart-page">
-      <div className="product-cart">
+    <div>
+      <div className="cart-container">
         {cartProducts.map((cartProduct) => (
           <CartItem
             key={cartProduct.cartId}

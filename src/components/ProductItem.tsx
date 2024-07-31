@@ -5,16 +5,18 @@ interface ProductItem {
   product?: Product;
 }
 
-const ProductItem = ({ product}: ProductItem) => {
+const ProductItem = ({ product }: ProductItem) => {
   return (
     <div className="product-card">
       <Link to={`/product/${product?.id}`}>
-        <Button className="product-item">
+        <Button className="product-card">
           <img
             src={product?.colors[0].images[0]}
             className="product-card__img"
           />
-          <div className="product-name">{product?.name}</div>
+          <div className="product-card__info">
+            <div className="product-card__name">{product?.name}</div>
+          </div>
         </Button>
       </Link>
     </div>

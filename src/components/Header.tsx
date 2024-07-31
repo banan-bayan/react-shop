@@ -7,14 +7,16 @@ const Header = ({cartProductsCount}: HeaderProps) => {
 
   return (
     <div className="header">
+      <div className="header__nav-buttons">
       <Link to={"/"}>
-        <Button>Каталог</Button>
+        <Button className="header__button">Каталог</Button>
       </Link>
       <Link to={"/cart"}>
-        <Button>
+        <Button className="header__button">
           <p>{`Корзина   ${cartProductsCount}`}</p>
         </Button>
       </Link>
+      </div>
     </div>
   );
 };
