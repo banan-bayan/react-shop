@@ -6,6 +6,7 @@ import Button from "./UI/Button";
 import { useAppDispatch } from "../hooks";
 import { addProduct } from "../store/cartSlice";
 import { Product, ColorProduct, Size } from "../Types";
+import { getSizes } from "../api/productsData";
 
 const ProductPage = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +14,8 @@ const ProductPage = () => {
   const { productId } = useParams<{ productId: string }>();
   const [slide, setSlide] = useState<number>(1);
   const [product, setProduct] = useState<Product | undefined>(undefined);
-
+  const [sizes, setSizes] = useState<Size[]>([]);
+  
   const fetchProd = async () => {
     try {
       if (productId) {
@@ -27,9 +29,19 @@ const ProductPage = () => {
     }
   };
 
+  const fetchSizes = async () => {
+    try {
+      const productSizes = await getSizes();
+      setSizes(productSizes);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
   useEffect(() => {
     fetchProd();
-  }, [productId]);
+    fetchSizes();
+  }, [productId, sizes]);
 
   const handlerSlide = (slideDirection: string) => {
     if (product?.colors?.length) {
@@ -75,6 +87,7 @@ const ProductPage = () => {
 
           return (
             <ProductColor
+              sizes={sizes}
               handlerClick={addInCart}
               className={prodColorClassName}
               productId={product.id}

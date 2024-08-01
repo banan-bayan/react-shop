@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
-import { getSize } from "../api/productsData";
+import { useState } from "react";
 import Button from "./UI/Button";
 import { Size, ColorProduct } from "../Types";
-import { useAppDispatch } from "../hooks";
-import { addSizes } from "../store/sizesSlice";
+
 interface ProdColorProps {
   className?: string;
   productColor: ColorProduct;
   productId: number;
   productName: string;
+  sizes: Size[]
   handlerClick: (
     cartId: string,
     productId: number,
@@ -19,35 +18,20 @@ interface ProdColorProps {
 }
 
 const ProductColor = ({
+  sizes,
   productName,
   productColor,
   productId,
   className,
   handlerClick,
 }: ProdColorProps) => {
-  const dispatch = useAppDispatch();
-  const [sizes, setSizes] = useState<Size[]>([]);
-  dispatch(addSizes(sizes));
   const [chosenSizeId, setChosenSizeId] = useState<number | null>(null);
-  const fetchSize = async () => {
-    try {
-      const requests = productColor.sizes.map((sizeId) => getSize(sizeId));
-      const productSizes = await Promise.all(requests);
-      setSizes(productSizes);
-    } catch (e) {
-      console.warn(e);
-    }
-  };
-
-  useEffect(() => {
-    fetchSize();
-  }, [productColor.sizes]);
 
   const handleSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSizeId = parseInt(e.target.value);
     setChosenSizeId(selectedSizeId);
   };
-
+  const colorSizes = sizes.filter((i) => productColor.sizes.includes(i.id))
   const chooseSize = sizes.find(({ id }) => id === chosenSizeId);
   const cartId = `${productId}${productColor.id}${chosenSizeId}`;
 
@@ -68,7 +52,7 @@ const ProductColor = ({
           выбрать размер
         </option>
 
-        {sizes.map(({ id, label }) => (
+        {colorSizes.map(({ id, label }) => (
           <option key={id} value={id} className="styled-select">
             Размер: {label}
           </option>
