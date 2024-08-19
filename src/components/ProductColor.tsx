@@ -31,6 +31,7 @@ const ProductColor = ({
     const selectedSizeId = parseInt(e.target.value);
     setChosenSizeId(selectedSizeId);
   };
+  
   const colorSizes = sizes.filter((i) => productColor.sizes.includes(i.id))
   const chooseSize = sizes.find(({ id }) => id === chosenSizeId);
   const cartId = `${productId}${productColor.id}${chosenSizeId}`;
